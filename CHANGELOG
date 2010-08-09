@@ -1,5 +1,9 @@
 = CHANGELOG
 
+== 0.1.1
+
+  * Add support for DROP TRIGGER IF EXISTS to update_trigger and drop_trigger
+
 == 0.1.0
 
   * Add update_trigger
