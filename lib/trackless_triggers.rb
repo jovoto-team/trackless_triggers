@@ -39,9 +39,13 @@ module ActiveRecord
     end
 
     module SchemaStatements
+      def update_trigger(name, opts = {})
+        drop_trigger(name)
+        add_trigger(name, opts)
+      end
+
       def add_trigger(name, opts = {})
-        sql = "CREATE TRIGGER #{name} #{opts[:timing]} #{opts[:event]} ON #{opts[:on]} FOR EACH ROW #{opts[:statement]}"
-        execute sql
+        execute "CREATE TRIGGER #{name} #{opts[:timing]} #{opts[:event]} ON #{opts[:on]} FOR EACH ROW #{opts[:statement]}"
       end
 
       def drop_trigger(name)

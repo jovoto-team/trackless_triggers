@@ -16,6 +16,14 @@ Add a trigger:
     :event      => 'insert',
     :statement  => 'INSERT INTO log (id, timestamp) VALUES (NEW.id, NOW())'
 
+Update an existing trigger (drops then adds):
+
+  update_trigger "ai_people",
+    :on         => 'people',
+    :timing     => 'after',
+    :event      => 'insert',
+    :statement  => 'INSERT INTO log (id, timestamp) VALUES (NEW.id, NOW())'
+
 Remove a trigger:
 
   drop_trigger 'ai_people'
