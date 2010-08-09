@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{Empact-trackless_triggers}
-  s.version = "0.0.6"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Patterson", "Christian Eager"]
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".gitignore",
      "CHANGELOG",
+     "Empact-trackless_triggers.gemspec",
      "MIT-LICENSE",
      "README",
      "Rakefile",
@@ -25,7 +26,7 @@ Gem::Specification.new do |s|
      "init.rb",
      "lib/trackless_triggers.rb"
   ]
-  s.homepage = %q{http://github.com/Empact/trackless-triggers}
+  s.homepage = %q{http://github.com/Empact/trackless_triggers}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
