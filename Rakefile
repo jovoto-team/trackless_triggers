@@ -7,7 +7,7 @@ begin
     gemspec.summary = "Adds support for MySQL triggers in ActiveRecord"
     gemspec.description = "Adds support for MySQL triggers in ActiveRecord"
     gemspec.email = "christian@perpenduum.com"
-    gemspec.homepage = "http://github.com/Empact/trackless-triggers"
+    gemspec.homepage = "http://github.com/Empact/trackless_triggers"
     gemspec.authors = ["Aaron Patterson","Christian Eager"]
   end
 rescue LoadError
