@@ -1,5 +1,13 @@
 = CHANGELOG
 
+== 0.2.1
+
+	* updated changelog
+
+== 0.2.0
+
+	* added support for functions
+
 == 0.1.1
 
   * Add support for DROP TRIGGER IF EXISTS to update_trigger and drop_trigger
