@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "trackless_triggers"
-  s.version = "0.1.1"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aaron Patterson", "Christian Eager", "Alexander Presber"]
@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "init.rb",
-    "lib/trackless_triggers.rb"
+    "lib/trackless_triggers.rb",
+    "trackless_triggers.gemspec"
   ]
   s.homepage = "https://github.com/jovoto-team/trackless_triggers"
   s.require_paths = ["lib"]

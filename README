@@ -1,10 +1,12 @@
-= Trigger Happy
+= Trackless Triggers
 
-Add triggers to your active record migrations.
+Add triggers and functions to your active record migrations. Based on Trigger Happy (http://tenderlovemaking.com/2007/03/01/trigger-happy.html)
 
 == INSTALL
 
-  script/plugin install svn://rubyforge.org/var/svn/artriggers/trunk/trigger_happy
+Add this to your Gemfile:
+
+gem 'trackless_triggers'
 
 == EXAMPLE
 
