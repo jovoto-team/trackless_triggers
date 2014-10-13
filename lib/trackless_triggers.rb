@@ -82,11 +82,11 @@ module ActiveRecord
 
     end
 
-    class MysqlAdapter < AbstractMysqlAdapter
+    class MysqlAdapter
       include TriggerFunc
     end
 
-    class Mysql2Adapter < AbstractMysqlAdapter
+    class Mysql2Adapter
       include TriggerFunc
     end
 
