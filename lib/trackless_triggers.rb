@@ -1,4 +1,16 @@
-require 'active_record/connection_adapters/abstract_mysql_adapter'
+def load_adapter(path)
+  begin
+    require path
+    true
+  rescue LoadError
+    false
+  end
+end
+
+MYSQL_ADAPTER_AVAILABLE = load_adapter 'active_record/connection_adapters/mysql_adapter'
+MYSQL2_ADAPTER_AVAILABLE = load_adapter 'active_record/connection_adapters/mysql2_adapter'
+MYSQL_JDBC_ADAPTER_AVAILABLE = load_adapter 'arjdbc/mysql/adapter'
+
 
 module ActiveRecord
   class SchemaDumper
@@ -23,7 +35,22 @@ module ActiveRecord
     def dump_table_triggers(table, stream)
       triggers = @connection.triggers(table)
       triggers.each do |trigger|
-        stream.print "  add_trigger \"#{trigger.name}\", :on => \"#{trigger.reference_table}\", :timing => \"#{trigger.timing}\", :event => \"#{trigger.event}\", :statement => \"#{trigger.statement}\""
+        name = trigger.name
+        name = name.last if name.is_a? Array
+
+        reference_table = trigger.reference_table
+        reference_table = reference_table.last if reference_table.is_a? Array
+
+        timing = trigger.timing
+        timing = timing.last if timing.is_a? Array
+
+        event = trigger.event
+        event = event.last if event.is_a? Array
+
+        statement = trigger.statement
+        statement = statement.last if statement.is_a? Array
+
+        stream.print "  add_trigger \"#{name}\", :on => \"#{reference_table}\", :timing => \"#{timing}\", :event => \"#{event}\", :statement => \"#{statement}\""
         stream.puts
       end
     end
@@ -84,11 +111,11 @@ module ActiveRecord
 
     class MysqlAdapter
       include TriggerFunc
-    end
+    end if MYSQL_JDBC_ADAPTER_AVAILABLE || MYSQL_ADAPTER_AVAILABLE
 
     class Mysql2Adapter
       include TriggerFunc
-    end
+    end if MYSQL2_ADAPTER_AVAILABLE
 
     module SchemaStatements
       def add_trigger(name, opts = {})
