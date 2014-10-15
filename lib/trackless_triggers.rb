@@ -79,6 +79,7 @@ module ActiveRecord
       def triggers(table, name = nil)
         triggers = []
         execute("SHOW TRIGGERS LIKE '#{table}'", name).each do |row|
+          row = row.values if row.is_a?(Hash)
           triggers <<  TriggerDefinition.new(*row)
         end
 
@@ -89,17 +90,16 @@ module ActiveRecord
         function_names = []
         functions = []
 
-        #config = Rails::Application.config
-        #config.database_configuration[RAILS_ENV]["database"]
-        dbname = ActiveRecord::Base.configurations[Rails.env]['database'] 
-
+        dbname = ActiveRecord::Base.configurations[Rails.env]['database']
         execute("SHOW FUNCTION STATUS WHERE DB='#{dbname}'").each do |row|
+          row = row.values if row.is_a?(Hash)
           func_info = FunctionInfoDefinition.new(*row)
           function_names << func_info.name
         end
 
         function_names.each do |name|
           execute("SHOW CREATE FUNCTION #{name}").each do |row|
+            row = row.values if row.is_a?(Hash)
             functions << FunctionDefinition.new(*row)
           end
         end
