@@ -18,6 +18,9 @@ module ActiveRecord
 
       # dump functions
       dump_functions(stream)
+
+      # dump stored procedures
+      dump_stored_procedures(stream)
     end
 
     def dump_table_triggers(table, stream)
@@ -35,6 +38,15 @@ module ActiveRecord
         stream.puts
       end
     end
+
+    def dump_stored_procedures(stream)
+      stored_procedures = @connection.stored_procedures
+      stored_procedures.each do |stored_procedure|
+        stream.print "  add_stored_procedure \"#{stored_procedure.definition.gsub(/DEFINER=`\w*`@`\w*` /i,'')}\"" if stored_procedure.definition.present?
+        stream.puts
+      end
+    end
+
 
   end
 
@@ -62,9 +74,8 @@ module ActiveRecord
         function_names = []
         functions = []
 
-        #config = Rails::Application.config
-        #config.database_configuration[RAILS_ENV]["database"]
-        dbname = ActiveRecord::Base.configurations[Rails.env]['database'] 
+        # read the database name from the connection pool - compatible with Padrino and Rails
+        dbname = ActiveRecord::Base.connection_pool.spec.config[:database]
 
         execute("SHOW FUNCTION STATUS WHERE DB='#{dbname}'").each do |row|
           func_info = FunctionInfoDefinition.new(*row)
@@ -78,6 +89,27 @@ module ActiveRecord
         end
 
         functions
+      end
+
+      def stored_procedures(name = nil)
+        stored_procedure_names = []
+        stored_procedures = []
+
+        # read the database name from the connection pool - compatible with Padrino and Rails
+        dbname = ActiveRecord::Base.connection_pool.spec.config[:database]
+
+        execute("SHOW PROCEDURE STATUS WHERE DB='#{dbname}'").each do |row|
+          sp_info = FunctionInfoDefinition.new(*row) # ok to use FunctionInfoDefinition to describe SP
+          stored_procedure_names << sp_info.name
+        end
+
+        stored_procedure_names.each do |name|
+          execute("SHOW CREATE PROCEDURE #{name}").each do |row|
+            stored_procedures << FunctionDefinition.new(*row) # ok to use FunctionDefinition to describe SP
+          end
+        end
+
+        stored_procedures
       end
 
     end
@@ -106,6 +138,14 @@ module ActiveRecord
 
       def drop_function(name)
         execute("DROP FUNCTION #{name}")
+      end
+
+      def add_stored_procedure(sql)
+        execute sql
+      end
+
+      def drop_stored_proceduren(name)
+        execute("DROP STORED PROCEDURE #{name}")
       end
     end
 
