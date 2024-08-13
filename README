@@ -34,3 +34,7 @@ Remove a trigger:
 
 Only works with mysql for now.
 
+
+== Version 1.0.2, updated 2024-01-31
+
+GrowKudos / Engineering team added support for Active Record 6.1
